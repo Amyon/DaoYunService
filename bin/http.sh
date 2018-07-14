@@ -2,6 +2,7 @@
 #
 # This is start script for sprint boot application.
 #
+#
 
 # JVM
 JVM_MEMORY="-Xmx12g -Xms12g -Xss1m -XX:MetaspaceSize=1g -XX:MaxMetaspaceSize=2g"
@@ -25,7 +26,7 @@ fi
 function usage(){
 cat << EOF
 Usage:
-    http.sh <command> [service.jar] [-D key=value] [args...]
+    http.sh <command> [service.jar] [-D key=value] [-JAVA_HOME <java_home>] [-JVM_ARGS <"jvm_args">] [args...]
 The commands are:
     start   start service
     stop    stop service
@@ -65,14 +66,28 @@ case $command in
                         JVM_PROPERTIES="-D$2 $JVM_PROPERTIES"
                         shift 2
                         ;;
+                    -JAVA_HOME)
+                        export JAVA_HOME=$2
+                        shift 2
+                        ;;
+
+                    -JVM_ARGS)
+                        JVM_ARGS=$2
+                        shift 2
+                        ;;
                     *)
                         break
                         ;;
                 esac
             done
-        RUN_COMMAND="java -server $JVM_ARGS $JVM_PROPERTIES -jar $EXEC_JAR $@"
-        echo Start Service
-        echo "Command," $RUN_COMMAND
+        if [ -z "$JAVA_HOME" ]; then
+            echo "Error: JAVA_HOME is not set."
+            exit 111
+        fi
+        JAVA="$JAVA_HOME/bin/java -server"
+        RUN_COMMAND="$JAVA $JVM_ARGS $JVM_PROPERTIES -jar $EXEC_JAR $@"
+        echo "START SERVICE..."
+        echo "[Command]" $RUN_COMMAND
         nohup $RUN_COMMAND > nohup.out 2>nohup.err &
         echo $! > $RUNNING_HOME/service.pid
      ;;
