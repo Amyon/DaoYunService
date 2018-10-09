@@ -4,12 +4,7 @@
 #
 #
 
-# JVM
-JVM_MEMORY="-Xmx12g -Xms12g -Xss1m -XX:MetaspaceSize=1g -XX:MaxMetaspaceSize=2g"
-JVM_GC="-XX:+UseG1GC -XX:MaxGCPauseMillis=200"
-JVM_GC_LOG="-XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintHeapAtGC -XX:+PrintGCApplicationStoppedTime -Xloggc:log/gc.log"
-JVM_PROPERTIES=""
-JVM_ARGS=$JVM_MEMORY" "$JVM_GC" "$JVM_GC_LOG" -XX:+HeapDumpOnOutOfMemoryError"
+### Envionment Variables
 
 BIN="`dirname "$0"`"
 HOME="`cd "$BIN";cd ..; pwd`"
@@ -18,11 +13,16 @@ echo $HOME
 export PROJECT_HOME=$HOME
 export DATA_HOME=$HOME"/data"
 export RUNNING_HOME=$PROJECT_HOME/running
+export LOG_HOME=$PROJECT_HOME/log
 
-if [ ! -d $RUNNING_HOME ]; then
-    mkdir $RUNNING_HOME
-fi
+### JVM
+JVM_MEMORY="-Xmx12g -Xms12g -Xss1m -XX:MetaspaceSize=1g -XX:MaxMetaspaceSize=2g"
+JVM_GC="-XX:+UseG1GC -XX:MaxGCPauseMillis=200"
+JVM_GC_LOG="-XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintHeapAtGC -XX:+PrintGCApplicationStoppedTime -Xloggc:$LOG_HOME/gc.log"
+JVM_PROPERTIES=""
+JVM_ARGS=$JVM_MEMORY" "$JVM_GC" "$JVM_GC_LOG" -XX:+HeapDumpOnOutOfMemoryError"
 
+### Functions
 function usage(){
 cat << EOF
 Usage:
@@ -45,6 +45,17 @@ function check_process_is_running(){
     return 1
 }
 
+function init(){
+    if [ ! -d $LOG_HOME ];then
+        mkdir $LOG_HOME
+    fi
+    if [ ! -d $RUNNING_HOME ]; then
+        mkdir $RUNNING_HOME
+    fi
+}
+
+### start script
+
 command=$1
 case $command in
     (start)
@@ -52,6 +63,7 @@ case $command in
             usage
             exit 1
         fi
+        init
         check_process_is_running
         if [ $? -eq 0 ]; then
             echo "Service[pid="`cat $RUNNING_HOME/pid`"] Already Started, Stop It First"
@@ -88,7 +100,7 @@ case $command in
         RUN_COMMAND="$JAVA $JVM_ARGS $JVM_PROPERTIES -jar $EXEC_JAR $@"
         echo "START SERVICE..."
         echo "[Command]" $RUN_COMMAND
-        nohup $RUN_COMMAND > nohup.out 2>nohup.err &
+        nohup $RUN_COMMAND > $LOG_HOME/stdout.log 2>$LOG_HOME/stderr.log &
         echo $! > $RUNNING_HOME/service.pid
      ;;
     (stop)
@@ -96,7 +108,7 @@ case $command in
         if [ $? -eq 0 ]; then
             kill $pid
             echo "Stop Service[pid=$pid]..."
-            sleep 1
+            sleep 3
         else
             echo "No Service Is Running"
         fi
