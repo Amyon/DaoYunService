@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author liugang
  */
 @RestController
-public class HelloController {
+public class InitController {
 
     @RequestMapping(value = "hello")
     public String hello(){
