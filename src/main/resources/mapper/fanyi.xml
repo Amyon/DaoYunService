@@ -13,7 +13,7 @@
     </select>
 
     <update id="updateByID" parameterType="outfox.springboot.entity.Fanyi">
-        UPDATE fanyi SET devToken = #{devToken}, imei = #{imei} WHERE id = {#id}
+        UPDATE fanyi SET devToken = #{devToken}, imei = #{imei} WHERE id = #{id}
     </update>
 
     <delete id="deleteFanyiByID" parameterType="java.lang.Integer">

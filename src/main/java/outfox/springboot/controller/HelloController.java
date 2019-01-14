@@ -21,16 +21,16 @@ public class HelloController {
     @RequestMapping(value = "hello")
     public String hello(){
         Fanyi fanyi = new Fanyi();
-        fanyi.setDevToken("devTokne");
-        fanyi.setImei("imei");
+        fanyi.setDevToken("devTokne1");
+        fanyi.setImei("imei1");
         fanyiService.insert(fanyi);
         Fanyi result = fanyiService.findOneFanyiObject();
         log.info(result.toString());
-        fanyi.setDevToken("newDevToken");
-        fanyiService.updateByID(fanyi);
+        result.setDevToken("newDevToken1");
+        fanyiService.updateByID(result);
         Fanyi newResult = fanyiService.findOneFanyiObject();
         log.info(newResult.toString());
-        fanyiService.deleteFanyiByID(result.getId());
+        fanyiService.deleteFanyiByID(newResult.getId());
         return "hello world!";
     }
 }
