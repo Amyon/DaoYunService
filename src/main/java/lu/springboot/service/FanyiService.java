@@ -1,9 +1,9 @@
-package outfox.springboot.service;
+package lu.springboot.service;
 
+import lu.springboot.entity.Fanyi;
+import lu.springboot.mapper.FanyiMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import outfox.springboot.entity.Fanyi;
-import outfox.springboot.mapper.FanyiMapper;
 
 @Service
 public class FanyiService {

@@ -1,6 +1,6 @@
-package outfox.springboot.mapper;
+package lu.springboot.mapper;
 
-import outfox.springboot.entity.Fanyi;
+import lu.springboot.entity.Fanyi;
 
 
 public interface FanyiMapper {

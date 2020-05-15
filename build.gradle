@@ -11,29 +11,14 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
-group = 'outfox'
+group = 'lu'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-	//公司ivy仓库
-	ivy{
-		url "http://fountain.rd.netease.com/share/ivy/"
-		layout "pattern", {
-			artifact "[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"
-			artifact "[organisation]/[module]/[revision]/[artifact](-[classifier]).[ext]"
-			artifact "[module]/[revision]/[artifact]-api(-[classifier]).[ext]"
-			ivy "[organisation]/[module]/[revision]/ivy.xml"
-		}
-	}
-	//公司maven仓库
-	maven {
-		url 'http://nexus.corp.youdao.com/nexus/content/groups/public'
-	}
-
 	mavenCentral()
 }
 

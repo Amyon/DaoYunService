@@ -1,4 +1,4 @@
-package outfox.springboot;
+package lu.springboot;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

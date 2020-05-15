@@ -1,4 +1,4 @@
-package outfox.springboot.config;
+package lu.springboot.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;

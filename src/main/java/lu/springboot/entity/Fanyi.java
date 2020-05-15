@@ -1,4 +1,4 @@
-package outfox.springboot.entity;
+package lu.springboot.entity;
 
 import lombok.Data;
 import lombok.ToString;
