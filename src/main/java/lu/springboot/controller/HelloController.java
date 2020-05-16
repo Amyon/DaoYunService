@@ -1,8 +1,11 @@
 package lu.springboot.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import lu.springboot.entity.User;
+import lu.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import lu.springboot.entity.Fanyi;
 import lu.springboot.service.FanyiService;
@@ -18,6 +21,10 @@ public class HelloController {
     @Autowired
     private FanyiService fanyiService;
 
+    @Autowired
+    private UserService userService;
+
+
     @RequestMapping(value = "hello")
     public String hello(){
         Fanyi fanyi = new Fanyi();
@@ -31,6 +38,14 @@ public class HelloController {
         Fanyi newResult = fanyiService.findOneFanyiObject();
         log.info(newResult.toString());
         fanyiService.deleteFanyiByID(newResult.getId());
+        return "hello world!";
+    }
+    @RequestMapping(value = "user")
+    @ResponseBody
+    public String operateUser(){
+        User result = userService.findOneUserObject();
+
+        log.info(result.toString());
         return "hello world!";
     }
 }
