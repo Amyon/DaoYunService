@@ -24,22 +24,6 @@ public class HelloController {
     @Autowired
     private UserService userService;
 
-
-    @RequestMapping(value = "hello")
-    public String hello(){
-        Fanyi fanyi = new Fanyi();
-        fanyi.setDevToken("devTokne1");
-        fanyi.setImei("imei1");
-        fanyiService.insert(fanyi);
-        Fanyi result = fanyiService.findOneFanyiObject();
-        log.info(result.toString());
-        result.setDevToken("newDevToken1");
-        fanyiService.updateByID(result);
-        Fanyi newResult = fanyiService.findOneFanyiObject();
-        log.info(newResult.toString());
-        fanyiService.deleteFanyiByID(newResult.getId());
-        return "hello world!";
-    }
     @RequestMapping(value = "user")
     @ResponseBody
     public String operateUser(){
