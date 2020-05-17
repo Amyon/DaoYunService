@@ -16,7 +16,7 @@ export RUNNING_HOME=$PROJECT_HOME/running
 export LOG_HOME=$PROJECT_HOME/log
 
 ### JVM
-JVM_MEMORY="-Xmx4g -Xms4g -Xss1m -XX:MetaspaceSize=1g -XX:MaxMetaspaceSize=2g"
+JVM_MEMORY="-Xmx4g -Xms2g -Xss1m -XX:MetaspaceSize=1g -XX:MaxMetaspaceSize=1g"
 JVM_GC="-XX:+UseG1GC -XX:MaxGCPauseMillis=200"
 JVM_GC_LOG="-XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintHeapAtGC -XX:+PrintGCApplicationStoppedTime -Xloggc:$LOG_HOME/gc.log"
 JVM_PROPERTIES="-Dfile.encoding=UTF-8"
