@@ -26,10 +26,10 @@ public class HelloController {
 
     @RequestMapping(value = "user")
     @ResponseBody
-    public String operateUser(){
+    public User operateUser(){
         User result = userService.findOneUserObject();
 
         log.info(result.toString());
-        return "hello world!";
+        return result;
     }
 }
