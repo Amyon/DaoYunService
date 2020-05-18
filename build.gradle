@@ -25,7 +25,6 @@ gitProperties {
 	dateFormatTimeZone = "GMT+8"
 	keys = ['git.branch', 'git.commit.time', 'git.commit.id', 'git.tags']
 }
-
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
