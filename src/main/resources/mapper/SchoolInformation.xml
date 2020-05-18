@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "lu.springboot.mapper.SchoolInformationMapper">
+
+    <select id = "findSchoolInfoById" parameterType="lu.springboot.entity.SchoolInformation"
+            resultType="lu.springboot.entity.SchoolInformation">
+        SELECT * FROM SchoolInformation where ID = #{ID};
+    </select>
+    <!--    <insert id="insert" parameterType="lu.springboot.entity.Fanyi">-->
+    <!--        INSERT INTO User(devToken, imei) VALUES (#{devToken}, #{imei})-->
+    <!--    </insert>-->
+
+    <!--    <update id="updateByID" parameterType="lu.springboot.entity.Fanyi">-->
+    <!--        UPDATE fanyi SET devToken = #{devToken}, imei = #{imei} WHERE id = #{id}-->
+    <!--    </update>-->
+
+    <!--    <delete id="deleteFanyiByID" parameterType="java.lang.Integer">-->
+    <!--        DELETE FROM fanyi WHERE id = #{id}-->
+    <!--    </delete>-->
+</mapper>
