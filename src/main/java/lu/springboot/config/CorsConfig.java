@@ -5,6 +5,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * 跨越访问配置
+ */
+
 @Configuration
 @EnableWebMvc
 public class CorsConfig implements WebMvcConfigurer {

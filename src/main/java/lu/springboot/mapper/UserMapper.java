@@ -10,5 +10,5 @@ public interface UserMapper {
     void insert(User user);
     void updateByID(User user);
 
-    User findUserByID(String userID);
+    User findUserByTele(String Tele);
 }

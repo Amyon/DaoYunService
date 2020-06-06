@@ -8,9 +8,9 @@
         SELECT * FROM User LIMIT 1;
     </select>
 
-    <select id = "findUserByID" parameterType="lu.springboot.entity.User"
+    <select id = "findUserByTele" parameterType="lu.springboot.entity.User"
             resultType="lu.springboot.entity.User">
-        SELECT * FROM User where UserID = #{UserID};
+        SELECT * FROM User where Tele = #{Tele};
     </select>
 <!--    <insert id="insert" parameterType="lu.springboot.entity.Fanyi">-->
 <!--        INSERT INTO User(devToken, imei) VALUES (#{devToken}, #{imei})-->

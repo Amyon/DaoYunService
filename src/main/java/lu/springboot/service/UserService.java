@@ -33,10 +33,15 @@ public class UserService {
         userMapper.updateByID(user);
     }
 
-    public User login(String userID, String password){
-        User user = userMapper.findUserByID(userID);
+    /**
+     * 用户登录
+     * @param Tele
+     * @return
+     */
+    public User login(String Tele){
+        User user = userMapper.findUserByTele(Tele);
         if(user == null){
-            throw new DaoYunException("UserID is not exist", ErrorCode.UserIDError);
+            throw new DaoYunException("Tele is not exist", ErrorCode.TeleError);
         }
         return user;
     }
