@@ -14,4 +14,10 @@ public class SchoolInformation {
     private String Faculty;
 
     private String Major;
+
+    public SchoolInformation(String college, String Faculty, String Major){
+        this.college = college;
+        this.Faculty = Faculty;
+        this.Major = Major;
+    }
 }

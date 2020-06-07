@@ -8,9 +8,18 @@
             resultType="lu.springboot.entity.SchoolInformation">
         SELECT * FROM SchoolInformation where ID = #{ID};
     </select>
-    <!--    <insert id="insert" parameterType="lu.springboot.entity.Fanyi">-->
-    <!--        INSERT INTO User(devToken, imei) VALUES (#{devToken}, #{imei})-->
-    <!--    </insert>-->
+
+    <select id = "ExistSchoolInfo" parameterType="lu.springboot.entity.SchoolInformation"
+            resultType="lu.springboot.entity.SchoolInformation">
+        SELECT * FROM SchoolInformation where college = #{college} and Faculty = #{Faculty} and Major = #{Major};
+    </select>
+
+    <insert id="insert" parameterType="lu.springboot.entity.SchoolInformation">
+        INSERT INTO SchoolInformation(college, Faculty, Major) VALUES (#{college}, #{Faculty}, #{Major})
+        <selectKey keyProperty="ID" order="AFTER" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+    </insert>
 
     <!--    <update id="updateByID" parameterType="lu.springboot.entity.Fanyi">-->
     <!--        UPDATE fanyi SET devToken = #{devToken}, imei = #{imei} WHERE id = #{id}-->

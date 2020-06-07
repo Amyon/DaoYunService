@@ -12,9 +12,10 @@
             resultType="lu.springboot.entity.User">
         SELECT * FROM User where Tele = #{Tele};
     </select>
-<!--    <insert id="insert" parameterType="lu.springboot.entity.Fanyi">-->
-<!--        INSERT INTO User(devToken, imei) VALUES (#{devToken}, #{imei})-->
-<!--    </insert>-->
+
+    <insert id="insert" parameterType="lu.springboot.entity.User">
+        INSERT INTO User(UserID, UserName, Sex, SchoolInfo, Tele, PassWord) VALUES (#{UserID}, #{UserName}, #{Sex}, #{SchoolInfo}, #{Tele}, #{PassWord})
+    </insert>
 
 <!--    <update id="updateByID" parameterType="lu.springboot.entity.Fanyi">-->
 <!--        UPDATE fanyi SET devToken = #{devToken}, imei = #{imei} WHERE id = #{id}-->

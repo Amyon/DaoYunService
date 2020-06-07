@@ -30,10 +30,10 @@ public class ResponseResult<T> {
         return responseResult;
     }
 
-    public static ResponseResult newSuccessResult(JSONObject data) {
+    public static ResponseResult newSuccessResult(JSONObject data, String msg) {
         ResponseResult responseResult = new ResponseResult();
         responseResult.setCode(0);
-        responseResult.setMsg(DaoYunConstant.LOGIN_SUCCESS);
+        responseResult.setMsg(msg);
         responseResult.setData(data);
         return responseResult;
     }

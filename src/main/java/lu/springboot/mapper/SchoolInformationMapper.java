@@ -9,4 +9,8 @@ public interface SchoolInformationMapper {
 
     SchoolInformation findSchoolInfoById(int id);
 
+    SchoolInformation ExistSchoolInfo(SchoolInformation schoolInformation);
+
+    SchoolInformation insert(SchoolInformation schoolInformation);
+
 }

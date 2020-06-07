@@ -15,4 +15,5 @@ public class SchoolInformationService {
         return schoolInformationMapper.findSchoolInfoById(id);
 
     }
+
 }

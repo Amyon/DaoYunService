@@ -5,7 +5,9 @@ import lombok.Getter;
 public enum ErrorCode {
 
     //无此账号
-    TeleError(1,"该手机号未注册"),
+    TeleError(1,"手机号未注册"),
+
+    TeleExist(1,"手机号已注册"),
 
     FAILED(1, "login fail"),
 
