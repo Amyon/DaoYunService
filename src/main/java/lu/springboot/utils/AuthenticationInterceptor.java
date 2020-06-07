@@ -9,7 +9,7 @@ import lu.springboot.annotation.PassToken;
 import lu.springboot.annotation.UserLoginToken;
 import lu.springboot.entity.User;
 import lu.springboot.mapper.UserMapper;
-import lu.springboot.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -58,7 +58,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 try {
                     Tele = JWT.decode(token).getAudience().get(0);
                 } catch (JWTDecodeException j) {
-                    throw new RuntimeException("401");
+                    throw new RuntimeException("Tele is invalid, please login again");
                 }
                 User user = userMapper.findUserByTele(Tele);
                 if(user == null) {
@@ -70,7 +70,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 try {
                     jwtVerifier.verify(token);
                 } catch (JWTVerificationException e){
-                    throw new RuntimeException("401");
+                    throw new RuntimeException("password is invalid, please login again");
                 }
                 return true;
             }

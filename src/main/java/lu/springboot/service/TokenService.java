@@ -14,11 +14,11 @@ import java.util.Date;
 public class TokenService {
     public String getToken(User user) {
         Date start = new Date();
-        long currentTime = System.currentTimeMillis() + 60* 60 * 1000;//一小时有效时间
+        long currentTime = System.currentTimeMillis() + 1000 * 60 * 60;//60* 60 * 1000;一小时有效时间
         Date end = new Date(currentTime);
-        String token = "";
 
-        token = JWT.create().withAudience(user.getTele()).withIssuedAt(start).withExpiresAt(end)
+
+        String token = JWT.create().withAudience(user.getTele()).withIssuedAt(start).withExpiresAt(end)
                 .sign(Algorithm.HMAC256(user.getPassWord()));
         return token;
     }

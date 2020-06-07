@@ -44,7 +44,6 @@ public class DaoYunController {
         User user = userService.login(Tele);
         if(user.getPassWord().equals(Password)){
             String token = tokenService.getToken(user);
-            jsonObject.put("token",token);
             jsonObject.put("User", user);
             jsonObject.put("SchoolInformation", schoolInformationService.getSchoolInfo(user.getSchoolInfo()));
 
@@ -63,8 +62,7 @@ public class DaoYunController {
 
         // 取出token中带的用户id 进行操作
         System.out.println(TokenUtil.getTokenTele());
-
-        return "你已通过验证";
+        return "you pass Auth";
     }
 
 
