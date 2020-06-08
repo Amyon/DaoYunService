@@ -11,6 +11,6 @@ public interface SchoolInformationMapper {
 
     SchoolInformation ExistSchoolInfo(SchoolInformation schoolInformation);
 
-    SchoolInformation insert(SchoolInformation schoolInformation);
+    int insert(SchoolInformation schoolInformation);
 
 }
