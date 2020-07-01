@@ -77,4 +77,16 @@ public class UserService {
         }
         return true;
     }
+
+    public boolean signUp1(dy_user user){
+        dy_user user1 = userMapper.findUserByTele(user.getUser_tele());
+        //判断手机号是否注册
+        if(user1 != null){
+            throw new DaoYunException("Tele is exist", ErrorCode.TeleExist);
+        }else {
+            userMapper.insert(user);
+        }
+
+        return true;
+    }
 }

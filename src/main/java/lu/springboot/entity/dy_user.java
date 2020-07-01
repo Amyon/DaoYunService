@@ -24,12 +24,14 @@ public class dy_user {
 
     public dy_user(){}
 
-    public dy_user(String UserID, String UserName, int Sex, String Tele, String PassWord){
+    public dy_user(String UserID, String UserName, int Sex, String Tele, String PassWord, String school_id, String school_parent_id){
         this.user_id = UserID;
         this.user_name = UserName;
         this.user_sex = Sex;
         this.user_tele = Tele;
         this.user_pwd = PassWord;
+        this.school_id = school_id;
+        this.school_parent_id = school_parent_id;
     }
 }
 

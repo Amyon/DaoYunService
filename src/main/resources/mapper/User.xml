@@ -14,7 +14,8 @@
     </select>
 
     <insert id="insert" parameterType="lu.springboot.entity.dy_user">
-        INSERT INTO User(UserID, UserName, Sex, SchoolInfo, Tele, PassWord) VALUES (#{UserID}, #{UserName}, #{Sex}, #{SchoolInfo}, #{Tele}, #{PassWord})
+        INSERT INTO dy_user(user_id, user_name, user_sex, user_tele, user_pwd, school_id, school_parent_id, role_id, gmt_create, gmt_modified)
+         VALUES (#{user_id}, #{user_name}, #{user_sex}, #{user_tele}, #{user_pwd}, #{school_id}, #{school_parent_id}, 2, now(), now())
     </insert>
 
 <!--    <update id="updateByID" parameterType="lu.springboot.entity.Fanyi">-->
