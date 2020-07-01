@@ -4,17 +4,17 @@
 
 <mapper namespace = "lu.springboot.mapper.SchoolInformationMapper">
 
-    <select id = "findSchoolInfoById" parameterType="lu.springboot.entity.SchoolInformation"
-            resultType="lu.springboot.entity.SchoolInformation">
-        SELECT * FROM SchoolInformation where ID = #{ID};
+    <select id = "findSchoolInfoById" parameterType="lu.springboot.entity.dy_school_Info"
+            resultType="lu.springboot.entity.dy_school_Info">
+        SELECT * FROM dy_school_info where school_parent_id = #{school_parent_id};
     </select>
 
-    <select id = "ExistSchoolInfo" parameterType="lu.springboot.entity.SchoolInformation"
-            resultType="lu.springboot.entity.SchoolInformation">
+    <select id = "ExistSchoolInfo" parameterType="lu.springboot.entity.dy_school_Info"
+            resultType="lu.springboot.entity.dy_school_Info">
         SELECT * FROM SchoolInformation where college = #{college} and Faculty = #{Faculty} and Major = #{Major};
     </select>
 
-    <insert id="insert" parameterType="lu.springboot.entity.SchoolInformation">
+    <insert id="insert" parameterType="lu.springboot.entity.dy_school_Info">
         INSERT INTO SchoolInformation(college, Faculty, Major) VALUES (#{college}, #{Faculty}, #{Major})
         <selectKey keyProperty="ID" order="AFTER" resultType="int">
             select LAST_INSERT_ID()

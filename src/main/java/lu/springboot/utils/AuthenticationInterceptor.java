@@ -7,7 +7,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import lu.springboot.annotation.PassToken;
 import lu.springboot.annotation.UserLoginToken;
-import lu.springboot.entity.User;
+import lu.springboot.entity.dy_user;
 import lu.springboot.mapper.UserMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,13 +60,13 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 } catch (JWTDecodeException j) {
                     throw new RuntimeException("Tele is invalid, please login again");
                 }
-                User user = userMapper.findUserByTele(Tele);
+                dy_user user = userMapper.findUserByTele(Tele);
                 if(user == null) {
                     throw new RuntimeException("用户不存在,请重新登录");
                 }
                 //验证token
                 JWTVerifier jwtVerifier =
-                        JWT.require(Algorithm.HMAC256(user.getPassWord())).build();
+                        JWT.require(Algorithm.HMAC256(user.getUser_pwd())).build();
                 try {
                     jwtVerifier.verify(token);
                 } catch (JWTVerificationException e){

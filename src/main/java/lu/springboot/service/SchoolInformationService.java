@@ -1,6 +1,6 @@
 package lu.springboot.service;
 
-import lu.springboot.entity.SchoolInformation;
+import lu.springboot.entity.dy_school_Info;
 import lu.springboot.mapper.SchoolInformationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,8 +11,8 @@ public class SchoolInformationService {
     @Autowired
     SchoolInformationMapper schoolInformationMapper;
 
-    public SchoolInformation getSchoolInfo(int id){
-        return schoolInformationMapper.findSchoolInfoById(id);
+    public dy_school_Info getSchoolInfo(String school_parent_id){
+        return schoolInformationMapper.findSchoolInfoById(school_parent_id);
 
     }
 

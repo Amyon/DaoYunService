@@ -1,16 +1,16 @@
 package lu.springboot.mapper;
 
-import lu.springboot.entity.SchoolInformation;
+import lu.springboot.entity.dy_school_Info;
 import org.springframework.stereotype.Component;
 
 
 @Component(value = "schoolInfo")
 public interface SchoolInformationMapper {
 
-    SchoolInformation findSchoolInfoById(int id);
+    dy_school_Info findSchoolInfoById(String school_parent_id);
 
-    SchoolInformation ExistSchoolInfo(SchoolInformation schoolInformation);
+    dy_school_Info ExistSchoolInfo(dy_school_Info dyschoolInfo);
 
-    int insert(SchoolInformation schoolInformation);
+    int insert(dy_school_Info dyschoolInfo);
 
 }
