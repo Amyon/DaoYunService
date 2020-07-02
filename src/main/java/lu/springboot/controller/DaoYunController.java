@@ -1,15 +1,14 @@
 package lu.springboot.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import lu.springboot.annotation.UserLoginToken;
 import lu.springboot.common.DaoYunConstant;
 import lu.springboot.common.ResponseResult;
-import lu.springboot.entity.dy_school_Info;
+import lu.springboot.entity.dy_class_info;
 import lu.springboot.entity.dy_user;
 import lu.springboot.exception.DaoYunException;
-import lu.springboot.mapper.UserMapper;
+import lu.springboot.service.ClassInfoService;
 import lu.springboot.service.SchoolInformationService;
 import lu.springboot.service.TokenService;
 import lu.springboot.service.UserService;
@@ -17,7 +16,6 @@ import lu.springboot.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,6 +33,8 @@ public class DaoYunController {
     private SchoolInformationService schoolInformationService;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private ClassInfoService classInfoService;
 
 
     @RequestMapping("/login")
@@ -136,9 +136,9 @@ public class DaoYunController {
                                      @RequestParam(value="NewPW",required = true)String NewPW) throws DaoYunException {
         JSONObject jsonObject = new JSONObject();
 
-        // 取出token中带的user_id 进行操作
+        // 取出token中带的user_tele 进行操作
         String user_tele = TokenUtil.getTokenTele();
-        System.out.println(user_tele);
+
         //把修改的信息实体化
 
 
@@ -151,4 +151,33 @@ public class DaoYunController {
         }
         return ResponseResult.newFailedResult(1,DaoYunConstant.CHANGEINFO_FAIL);
     }
+
+    @UserLoginToken
+    @GetMapping("/createclass")
+    public ResponseResult createClass(HttpServletRequest req,
+                                   HttpServletResponse resp,
+                                   @RequestParam(value="class_name",required = true)String class_name,
+                                   @RequestParam(value="course_name",required = true)String course_name,
+                                  @RequestParam(value = "section",required = true)String section,
+                                  @RequestParam(value = "school_info",required = true)String school_info) throws DaoYunException {
+        JSONObject jsonObject = new JSONObject();
+
+        // 取出token中带的user_tele 进行操作
+        String user_tele = TokenUtil.getTokenTele();
+        //取出该用户信息
+        dy_user user = userService.createPermission(user_tele);
+        //判断用户是否有创建班课的权限
+        if(user != null){
+            //创建的信息实体化
+            String user_id = user.getUser_id();
+            dy_class_info dyClassInfo = new dy_class_info(class_name, course_name, section, school_info, user_id);
+//            返回创建的class_id
+            int class_id = classInfoService.createCourse(dyClassInfo);
+            jsonObject.put("class_id", class_id);
+            return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.CREATE_SUCCESS);
+        }
+        return ResponseResult.newFailedResult(1,DaoYunConstant.CREATE_FAIL);
+    }
+
+
 }

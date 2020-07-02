@@ -17,4 +17,8 @@ public class DaoYunConstant {
     public static final String CHANGEINFO_SUCCESS = "修改成功.";
 
     public static final String CHANGEINFO_FAIL ="修改失败.";
+
+    public static final String CREATE_SUCCESS ="创建班课成功.";
+
+    public static final String CREATE_FAIL ="创建班课失败.";
 }

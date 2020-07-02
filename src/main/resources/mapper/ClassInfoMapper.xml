@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "lu.springboot.mapper.ClassInfoMapper">
+
+<!--    <select id = "findFirstLine" resultType="lu.springboot.entity.dy_user">-->
+<!--        SELECT * FROM User LIMIT 1;-->
+<!--    </select>-->
+<!--    &lt;!&ndash;    按照user_tele查询数据库&ndash;&gt;-->
+<!--    <select id = "findUserByTele" parameterType="lu.springboot.entity.dy_user"-->
+<!--            resultType="lu.springboot.entity.dy_user">-->
+<!--        SELECT * FROM dy_user where user_tele = #{user_tele};-->
+<!--    </select>-->
+<!--    &lt;!&ndash;    按照user_id查询数据库&ndash;&gt;-->
+<!--    <select id = "findUserByuser_id" parameterType="lu.springboot.entity.dy_user"-->
+<!--            resultType="lu.springboot.entity.dy_user">-->
+<!--        SELECT * FROM dy_user where user_id = #{user_id};-->
+<!--    </select>-->
+
+    <insert id="insert" parameterType="lu.springboot.entity.dy_class_info">
+        INSERT INTO dy_class_info(class_name, course_name, section, school_info, user_id) VALUES (#{class_name}, #{course_name}, #{section}, #{school_info}, #{user_id})
+        <selectKey keyProperty="class_id" order="AFTER" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <!--    修改用户信息-->
+<!--    <update id="updateByUser_tele" parameterType="lu.springboot.entity.dy_user">-->
+<!--        update dy_user-->
+<!--        <set>-->
+<!--            <if test="user_name != null">-->
+<!--                user_name = #{user_name},-->
+<!--            </if>-->
+<!--            <if test="user_pwd != null">-->
+<!--                user_pwd = #{user_pwd},-->
+<!--            </if>-->
+<!--            gmt_modified=now()-->
+<!--        </set>-->
+<!--        where user_tele = #{user_tele};-->
+<!--    </update>-->
+
+    <!--    <delete id="deleteFanyiByID" parameterType="java.lang.Integer">-->
+    <!--        DELETE FROM fanyi WHERE id = #{id}-->
+    <!--    </delete>-->
+</mapper>

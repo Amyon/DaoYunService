@@ -1,6 +1,5 @@
 package lu.springboot.service;
 
-import lu.springboot.entity.dy_school_Info;
 import lu.springboot.entity.dy_user;
 import lu.springboot.exception.DaoYunException;
 import lu.springboot.exception.ErrorCode;
@@ -86,6 +85,15 @@ public class UserService {
             throw new DaoYunException("旧密码不正确.",ErrorCode.OLDPWD_ERROR);
         }
         return true;
+    }
+
+    public dy_user createPermission(String user_tele){
+        dy_user user = userMapper.findUserByTele(user_tele);
+        if(user.getRole_id().equals("1")){
+            return user;
+        }else {
+            throw new DaoYunException("没有权限创建班课",ErrorCode.NoPermission);
+        }
     }
 
 //    /**

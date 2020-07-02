@@ -12,7 +12,7 @@ public enum ErrorCode {
     FAILED(1, "login fail"),
 
     // 无权限
-    FORBIDDEN(403, "forbidden"),
+    NoPermission(403, "无创建权限."),
 
     // 参数错误
     PARAM_ERROR(20, "输入错误"),
