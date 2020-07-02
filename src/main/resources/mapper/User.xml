@@ -24,7 +24,17 @@
     </insert>
     <!--    修改用户信息-->
     <update id="updateByUser_tele" parameterType="lu.springboot.entity.dy_user">
-        update dy_user set user_name=#{user_name} ,gmt_modified=now() where user_tele = #{user_tele};
+        update dy_user
+        <set>
+        <if test="user_name != null">
+            user_name = #{user_name},
+        </if>
+        <if test="user_pwd != null">
+            user_pwd = #{user_pwd},
+        </if>
+           gmt_modified=now()
+        </set>
+        where user_tele = #{user_tele};
     </update>
 
 <!--    <delete id="deleteFanyiByID" parameterType="java.lang.Integer">-->

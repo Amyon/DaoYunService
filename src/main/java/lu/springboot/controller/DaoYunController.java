@@ -9,6 +9,7 @@ import lu.springboot.common.ResponseResult;
 import lu.springboot.entity.dy_school_Info;
 import lu.springboot.entity.dy_user;
 import lu.springboot.exception.DaoYunException;
+import lu.springboot.mapper.UserMapper;
 import lu.springboot.service.SchoolInformationService;
 import lu.springboot.service.TokenService;
 import lu.springboot.service.UserService;
@@ -35,6 +36,7 @@ public class DaoYunController {
     @Autowired
     private TokenService tokenService;
 
+
     @RequestMapping("/login")
     public ResponseResult login(HttpServletRequest req,
                                 HttpServletResponse resp,
@@ -47,7 +49,6 @@ public class DaoYunController {
         if(user.getUser_pwd().equals(Password)){
             String token = tokenService.getToken(user);
             jsonObject.put("dy_user", user);
-//            jsonObject.put("dy_school_info", schoolInformationService.getSchoolInfo(user.getSchool_parent_id()));
             jsonObject.put("token",token);
 
             return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.LOGIN_SUCCESS);
@@ -118,11 +119,35 @@ public class DaoYunController {
 
         // 取出token中带的user_id 进行操作
         String user_tele = TokenUtil.getTokenTele();
-        System.out.println(user_tele);
+//        System.out.println(user_tele);
         //把修改的信息实体化
-        dy_user user=new dy_user(user_tele,user_name);
+        dy_user user = new dy_user(user_tele, user_name, null);
         if(userService.changeInformation(user)){
             return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.CHANGEINFO_SUCCESS);
+        }
+        return ResponseResult.newFailedResult(1,DaoYunConstant.CHANGEINFO_FAIL);
+    }
+
+    @UserLoginToken
+    @GetMapping("/changePW")
+    public ResponseResult changePW(HttpServletRequest req,
+                                     HttpServletResponse resp,
+                                     @RequestParam(value="OldPW",required = true)String OldPW,
+                                     @RequestParam(value="NewPW",required = true)String NewPW) throws DaoYunException {
+        JSONObject jsonObject = new JSONObject();
+
+        // 取出token中带的user_id 进行操作
+        String user_tele = TokenUtil.getTokenTele();
+        System.out.println(user_tele);
+        //把修改的信息实体化
+
+
+        if(userService.comparePwd(user_tele,OldPW)){
+            dy_user user = new dy_user(user_tele, null, NewPW);
+            if(userService.changeInformation(user)){
+                return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.CHANGEINFO_SUCCESS);
+            }
+
         }
         return ResponseResult.newFailedResult(1,DaoYunConstant.CHANGEINFO_FAIL);
     }

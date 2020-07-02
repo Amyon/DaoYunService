@@ -71,10 +71,21 @@ public class UserService {
      */
     public boolean changeInformation(dy_user user){
 
-        boolean rest = userMapper.updateByUser_tele(user);
-        System.out.println("修改条数："+rest);
+        return userMapper.updateByUser_tele(user);
+    }
 
-       return rest;
+    /**
+     * 比较旧密码是否正确
+     * @param user_tele
+     * @param oldPwd
+     * @return
+     */
+    public boolean comparePwd(String user_tele, String oldPwd){
+        dy_user user = userMapper.findUserByTele(user_tele);
+        if(!user.getUser_pwd().equals(oldPwd)){
+            throw new DaoYunException("旧密码不正确.",ErrorCode.OLDPWD_ERROR);
+        }
+        return true;
     }
 
 //    /**

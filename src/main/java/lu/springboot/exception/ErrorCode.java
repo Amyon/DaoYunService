@@ -17,7 +17,11 @@ public enum ErrorCode {
     // 参数错误
     PARAM_ERROR(20, "输入错误"),
 
+    OLDPWD_ERROR(20, "旧密码错误"),
+
     User_id_Exist(1,"User_id 已注册");
+
+
 
 
 

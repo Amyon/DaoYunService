@@ -23,9 +23,10 @@ public class dy_user {
     private Date gmt_modified;
 
     public dy_user(){}
-    public dy_user(String user_tele, String uname){
+    public dy_user(String user_tele, String uname,String user_pwd){
         this.user_tele = user_tele;
         this.user_name = uname;
+        this.user_pwd = user_pwd;
     }
 
 
