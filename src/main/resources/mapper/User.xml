@@ -7,20 +7,25 @@
     <select id = "findFirstLine" resultType="lu.springboot.entity.dy_user">
         SELECT * FROM User LIMIT 1;
     </select>
-
+    <!--    按照user_tele查询数据库-->
     <select id = "findUserByTele" parameterType="lu.springboot.entity.dy_user"
             resultType="lu.springboot.entity.dy_user">
         SELECT * FROM dy_user where user_tele = #{user_tele};
+    </select>
+    <!--    按照user_id查询数据库-->
+    <select id = "findUserByuser_id" parameterType="lu.springboot.entity.dy_user"
+            resultType="lu.springboot.entity.dy_user">
+        SELECT * FROM dy_user where user_id = #{user_id};
     </select>
 
     <insert id="insert" parameterType="lu.springboot.entity.dy_user">
         INSERT INTO dy_user(user_id, user_name, user_sex, user_tele, user_pwd, school_id, school_parent_id, role_id, gmt_create, gmt_modified)
          VALUES (#{user_id}, #{user_name}, #{user_sex}, #{user_tele}, #{user_pwd}, #{school_id}, #{school_parent_id}, 2, now(), now())
     </insert>
-
-<!--    <update id="updateByID" parameterType="lu.springboot.entity.Fanyi">-->
-<!--        UPDATE fanyi SET devToken = #{devToken}, imei = #{imei} WHERE id = #{id}-->
-<!--    </update>-->
+    <!--    修改用户信息-->
+    <update id="updateByUser_tele" parameterType="lu.springboot.entity.dy_user">
+        update dy_user set user_name=#{user_name} ,gmt_modified=now() where user_tele = #{user_tele};
+    </update>
 
 <!--    <delete id="deleteFanyiByID" parameterType="java.lang.Integer">-->
 <!--        DELETE FROM fanyi WHERE id = #{id}-->

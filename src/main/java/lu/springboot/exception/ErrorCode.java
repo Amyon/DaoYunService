@@ -15,7 +15,9 @@ public enum ErrorCode {
     FORBIDDEN(403, "forbidden"),
 
     // 参数错误
-    PARAM_ERROR(20, "输入错误");
+    PARAM_ERROR(20, "输入错误"),
+
+    User_id_Exist(1,"User_id 已注册");
 
 
 

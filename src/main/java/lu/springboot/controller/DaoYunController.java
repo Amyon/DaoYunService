@@ -1,6 +1,7 @@
 package lu.springboot.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import lu.springboot.annotation.UserLoginToken;
 import lu.springboot.common.DaoYunConstant;
@@ -46,7 +47,7 @@ public class DaoYunController {
         if(user.getUser_pwd().equals(Password)){
             String token = tokenService.getToken(user);
             jsonObject.put("dy_user", user);
-            jsonObject.put("dy_school_info", schoolInformationService.getSchoolInfo(user.getSchool_parent_id()));
+//            jsonObject.put("dy_school_info", schoolInformationService.getSchoolInfo(user.getSchool_parent_id()));
             jsonObject.put("token",token);
 
             return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.LOGIN_SUCCESS);
@@ -64,9 +65,6 @@ public class DaoYunController {
      * @param Sex
      * @param Tele
      * @param PassWord
-     * @param college
-     * @param Faculty
-     * @param Major
      * @return
      * @throws DaoYunException
      */
@@ -85,8 +83,7 @@ public class DaoYunController {
 
 //        注册信息封装到实体
         dy_user user = new dy_user(UserID, UserName, Sex, Tele, PassWord, school_id, school_parent_id);
-        //        dy_school_Info dyschoolInfo = new dy_school_Info(college, Faculty);
-
+        //注册操作
         if(userService.signUp1(user)){
             return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.SIGNUP_SUCCESS);
         }
@@ -103,5 +100,30 @@ public class DaoYunController {
         // 取出token中带的用户id 进行操作
         System.out.println(TokenUtil.getTokenTele()+"55555");
         return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.SIGNUP_SUCCESS);
+    }
+
+    /**
+     * 修改用户信息
+     * @param req
+     * @param resp
+     * @return
+     * @throws DaoYunException
+     */
+    @UserLoginToken
+    @GetMapping("/changeinfo")
+    public ResponseResult changeInfo(HttpServletRequest req,
+                                     HttpServletResponse resp,
+                                     @RequestParam(value="user_name",required = true)String user_name) throws DaoYunException {
+        JSONObject jsonObject = new JSONObject();
+
+        // 取出token中带的user_id 进行操作
+        String user_tele = TokenUtil.getTokenTele();
+        System.out.println(user_tele);
+        //把修改的信息实体化
+        dy_user user=new dy_user(user_tele,user_name);
+        if(userService.changeInformation(user)){
+            return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.CHANGEINFO_SUCCESS);
+        }
+        return ResponseResult.newFailedResult(1,DaoYunConstant.CHANGEINFO_FAIL);
     }
 }

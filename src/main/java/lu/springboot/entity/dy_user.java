@@ -23,6 +23,11 @@ public class dy_user {
     private Date gmt_modified;
 
     public dy_user(){}
+    public dy_user(String user_tele, String uname){
+        this.user_tele = user_tele;
+        this.user_name = uname;
+    }
+
 
     public dy_user(String UserID, String UserName, int Sex, String Tele, String PassWord, String school_id, String school_parent_id){
         this.user_id = UserID;
