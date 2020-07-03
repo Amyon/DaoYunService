@@ -11,6 +11,11 @@ public class ClassInfoService {
     @Autowired
     ClassInfoMapper classInfoMapper;
 
+    /**
+     * 创建班课
+     * @param dyClassInfo
+     * @return
+     */
     public int createCourse(dy_class_info dyClassInfo){
 
         classInfoMapper.insert(dyClassInfo);
@@ -19,6 +24,11 @@ public class ClassInfoService {
 
         return dyClassInfo.getClass_id();
 
+    }
+
+    public dy_class_info findClassById(int class_id){
+        dy_class_info dyClassInfo = classInfoMapper.finClassById(class_id);
+        return dyClassInfo;
     }
 
 

@@ -11,4 +11,5 @@ public interface ClassInfoMapper {
 
     int insert(dy_class_info dyClassInfo);
 
+    dy_class_info finClassById(int class_id);
 }

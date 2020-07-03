@@ -21,4 +21,10 @@ public class DaoYunConstant {
     public static final String CREATE_SUCCESS ="创建班课成功.";
 
     public static final String CREATE_FAIL ="创建班课失败.";
+
+
+    public static final String JOIN_SUCCESS ="加入班课成功.";
+
+    public static final String JOIN_FAIL ="加入班课失败.";
+
 }

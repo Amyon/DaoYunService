@@ -11,11 +11,16 @@ public enum ErrorCode {
 
     FAILED(1, "login fail"),
 
+    JOIN_EXIST(1, "已加入班课."),
+
     // 无权限
     NoPermission(403, "无创建权限."),
 
     // 参数错误
     PARAM_ERROR(20, "输入错误"),
+
+    // 参数错误
+    JOIN_ERROR(20, "班课号错误"),
 
     OLDPWD_ERROR(20, "旧密码错误"),
 

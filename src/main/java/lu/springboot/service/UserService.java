@@ -87,6 +87,11 @@ public class UserService {
         return true;
     }
 
+    /**
+     * 创建班课，判断是否有权限
+     * @param user_tele
+     * @return
+     */
     public dy_user createPermission(String user_tele){
         dy_user user = userMapper.findUserByTele(user_tele);
         if(user.getRole_id().equals("1")){

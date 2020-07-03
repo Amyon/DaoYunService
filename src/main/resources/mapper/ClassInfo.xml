@@ -13,10 +13,10 @@
 <!--        SELECT * FROM dy_user where user_tele = #{user_tele};-->
 <!--    </select>-->
 <!--    &lt;!&ndash;    按照user_id查询数据库&ndash;&gt;-->
-<!--    <select id = "findUserByuser_id" parameterType="lu.springboot.entity.dy_user"-->
-<!--            resultType="lu.springboot.entity.dy_user">-->
-<!--        SELECT * FROM dy_user where user_id = #{user_id};-->
-<!--    </select>-->
+    <select id = "finClassById" parameterType="lu.springboot.entity.dy_class_info"
+            resultType="lu.springboot.entity.dy_class_info">
+        SELECT * FROM dy_class_info where class_id = #{class_id};
+    </select>
 
     <insert id="insert" parameterType="lu.springboot.entity.dy_class_info">
         INSERT INTO dy_class_info(class_name, course_name, section, school_info, user_id) VALUES (#{class_name}, #{course_name}, #{section}, #{school_info}, #{user_id})

@@ -5,19 +5,20 @@ import lombok.extern.slf4j.Slf4j;
 import lu.springboot.annotation.UserLoginToken;
 import lu.springboot.common.DaoYunConstant;
 import lu.springboot.common.ResponseResult;
+import lu.springboot.entity.dy_class;
 import lu.springboot.entity.dy_class_info;
 import lu.springboot.entity.dy_user;
 import lu.springboot.exception.DaoYunException;
-import lu.springboot.service.ClassInfoService;
-import lu.springboot.service.SchoolInformationService;
-import lu.springboot.service.TokenService;
-import lu.springboot.service.UserService;
+import lu.springboot.exception.ErrorCode;
+import lu.springboot.mapper.UserMapper;
+import lu.springboot.service.*;
 import lu.springboot.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 
 /**
  *部分功能控制器
@@ -35,7 +36,10 @@ public class DaoYunController {
     private TokenService tokenService;
     @Autowired
     private ClassInfoService classInfoService;
-
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private ClassService classService;
 
     @RequestMapping("/login")
     public ResponseResult login(HttpServletRequest req,
@@ -92,17 +96,6 @@ public class DaoYunController {
 
     }
 
-    @UserLoginToken
-    @GetMapping("/getMessage")
-    public ResponseResult getMessage(HttpServletRequest req,
-                                     HttpServletResponse resp) throws DaoYunException {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("test", "you pass Auth");
-        // 取出token中带的用户id 进行操作
-        System.out.println(TokenUtil.getTokenTele()+"55555");
-        return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.SIGNUP_SUCCESS);
-    }
-
     /**
      * 修改用户信息
      * @param req
@@ -128,6 +121,15 @@ public class DaoYunController {
         return ResponseResult.newFailedResult(1,DaoYunConstant.CHANGEINFO_FAIL);
     }
 
+    /**
+     * 修改密码
+     * @param req
+     * @param resp
+     * @param OldPW
+     * @param NewPW
+     * @return
+     * @throws DaoYunException
+     */
     @UserLoginToken
     @GetMapping("/changePW")
     public ResponseResult changePW(HttpServletRequest req,
@@ -138,10 +140,7 @@ public class DaoYunController {
 
         // 取出token中带的user_tele 进行操作
         String user_tele = TokenUtil.getTokenTele();
-
         //把修改的信息实体化
-
-
         if(userService.comparePwd(user_tele,OldPW)){
             dy_user user = new dy_user(user_tele, null, NewPW);
             if(userService.changeInformation(user)){
@@ -152,6 +151,17 @@ public class DaoYunController {
         return ResponseResult.newFailedResult(1,DaoYunConstant.CHANGEINFO_FAIL);
     }
 
+    /**
+     * 创建班课
+     * @param req
+     * @param resp
+     * @param class_name
+     * @param course_name
+     * @param section
+     * @param school_info
+     * @return
+     * @throws DaoYunException
+     */
     @UserLoginToken
     @GetMapping("/createclass")
     public ResponseResult createClass(HttpServletRequest req,
@@ -164,19 +174,53 @@ public class DaoYunController {
 
         // 取出token中带的user_tele 进行操作
         String user_tele = TokenUtil.getTokenTele();
-        //取出该用户信息
+        //判断用户是否有创建班课的权限,并取出该用户信息
         dy_user user = userService.createPermission(user_tele);
-        //判断用户是否有创建班课的权限
         if(user != null){
             //创建的信息实体化
             String user_id = user.getUser_id();
             dy_class_info dyClassInfo = new dy_class_info(class_name, course_name, section, school_info, user_id);
-//            返回创建的class_id
             int class_id = classInfoService.createCourse(dyClassInfo);
             jsonObject.put("class_id", class_id);
             return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.CREATE_SUCCESS);
         }
         return ResponseResult.newFailedResult(1,DaoYunConstant.CREATE_FAIL);
+    }
+
+    /**
+     * 加入班课
+     * @param req
+     * @param resp
+     * @param class_id
+     * @return
+     * @throws DaoYunException
+     */
+    @UserLoginToken
+    @GetMapping("/joinclass")
+    public ResponseResult joinClass(HttpServletRequest req,
+                                   HttpServletResponse resp,
+                                   @RequestParam(value="class_id",required = true)int class_id) throws DaoYunException, SQLException {
+        JSONObject jsonObject = new JSONObject();
+
+        // 取出token中带的user_tele 进行操作
+        String user_tele = TokenUtil.getTokenTele();
+        //取出用户信息
+        dy_user user =userMapper.findUserByTele(user_tele);
+        //初始化插入信息，生成实体对象
+        dy_class dyClass = new dy_class(class_id, user.getUser_id());
+        //判断是否有此班课
+        if(classInfoService.findClassById(class_id) == null){
+            throw new DaoYunException("class_id error",ErrorCode.JOIN_ERROR);
+        }else if(!classService.joinClass(dyClass)){
+            return ResponseResult.newFailedResult(1,DaoYunConstant.JOIN_FAIL);
+        }else {
+            return ResponseResult.newSuccessResult(jsonObject,DaoYunConstant.JOIN_SUCCESS);
+
+        }
+
+
+
+
     }
 
 
