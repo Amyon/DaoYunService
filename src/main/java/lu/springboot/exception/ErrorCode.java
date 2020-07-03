@@ -22,6 +22,8 @@ public enum ErrorCode {
     // 参数错误
     JOIN_ERROR(20, "班课号错误"),
 
+    NO_JOIN_CLASS(20, "未加入班课"),
+
     OLDPWD_ERROR(20, "旧密码错误"),
 
     User_id_Exist(1,"User_id 已注册");

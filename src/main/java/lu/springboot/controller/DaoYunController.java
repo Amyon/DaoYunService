@@ -1,5 +1,6 @@
 package lu.springboot.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import lu.springboot.annotation.UserLoginToken;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *部分功能控制器
@@ -40,6 +43,7 @@ public class DaoYunController {
     private UserMapper userMapper;
     @Autowired
     private ClassService classService;
+
 
     @RequestMapping("/login")
     public ResponseResult login(HttpServletRequest req,
@@ -208,19 +212,51 @@ public class DaoYunController {
         dy_user user =userMapper.findUserByTele(user_tele);
         //初始化插入信息，生成实体对象
         dy_class dyClass = new dy_class(class_id, user.getUser_id());
-        //判断是否有此班课
+        //判断有没有这个班课
         if(classInfoService.findClassById(class_id) == null){
             throw new DaoYunException("class_id error",ErrorCode.JOIN_ERROR);
         }else if(!classService.joinClass(dyClass)){
+            //加入班课失败
             return ResponseResult.newFailedResult(1,DaoYunConstant.JOIN_FAIL);
         }else {
             return ResponseResult.newSuccessResult(jsonObject,DaoYunConstant.JOIN_SUCCESS);
 
         }
+    }
+
+    @UserLoginToken
+    @GetMapping("/myclass")
+    public ResponseResult myClass(HttpServletRequest req,
+                                    HttpServletResponse resp) throws DaoYunException, SQLException {
+        JSONObject jsonObject = new JSONObject();
+        JSONArray classDetail = new JSONArray();
+        // 取出token中带的user_tele 进行操作
+        String user_tele = TokenUtil.getTokenTele();
+        //取出用户信息
+        dy_user user = userMapper.findUserByTele(user_tele);
+
+        //查询加入的所有班课信息
+        List<dy_class_info> dyClassInfo = classService.findMyAllClass(user.getUser_id());
+
+        //查询每个班课的老师
+        for (dy_class_info i: dyClassInfo) {
+            //得到该课程的创建者
+            dy_user user1 = userMapper.findUserByuser_id(i.getUser_id());
+            String teacherName = user1.getUser_name();
 
 
-
-
+            JSONObject jsonObject1 = new JSONObject();
+            //封装返回值
+            jsonObject1.put("class_id", i.getClass_id());
+            jsonObject1.put("class_name",i.getClass_name());
+            jsonObject1.put("course_name", i.getCourse_name());
+            jsonObject1.put("section",i.getSection());
+            jsonObject1.put("school_info", i.getSchool_info());
+            jsonObject1.put("teacher_name",teacherName);
+            classDetail.add(jsonObject1);
+        }
+        jsonObject.put("dy_class_info",classDetail);
+        return ResponseResult.newSuccessResult(jsonObject,DaoYunConstant.MYALLCLASS_SUCCESS);
     }
 
 

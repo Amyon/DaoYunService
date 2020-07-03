@@ -1,7 +1,10 @@
 package lu.springboot.mapper;
 
+import lu.springboot.entity.dy_class_info;
 import lu.springboot.entity.dy_user;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component(value = "userMapper")
 public interface UserMapper {

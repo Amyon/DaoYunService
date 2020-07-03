@@ -1,5 +1,6 @@
 package lu.springboot.service;
 
+import lu.springboot.entity.dy_class_info;
 import lu.springboot.entity.dy_user;
 import lu.springboot.exception.DaoYunException;
 import lu.springboot.exception.ErrorCode;
@@ -7,6 +8,8 @@ import lu.springboot.mapper.SchoolInformationMapper;
 import lu.springboot.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {

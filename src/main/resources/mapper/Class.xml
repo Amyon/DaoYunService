@@ -8,11 +8,13 @@
     <!--        SELECT * FROM User LIMIT 1;-->
     <!--    </select>-->
     <!--    &lt;!&ndash;    按照user_tele查询数据库&ndash;&gt;-->
-    <!--    <select id = "findUserByTele" parameterType="lu.springboot.entity.dy_user"-->
-    <!--            resultType="lu.springboot.entity.dy_user">-->
-    <!--        SELECT * FROM dy_user where user_tele = #{user_tele};-->
-    <!--    </select>-->
-    <!--    &lt;!&ndash;    按照user_id查询数据库&ndash;&gt;-->
+<!--        查询该用户加入的所有班课-->
+        <select id = "findMyAllClass" parameterType="lu.springboot.entity.dy_class"
+                resultType="lu.springboot.entity.dy_class">
+            SELECT * FROM dy_class where user_id = #{user_id};
+        </select>
+
+<!--        查询是否已经加入班课-->
         <select id = "findClassById" parameterType="lu.springboot.entity.dy_class"
                 resultType="lu.springboot.entity.dy_class">
             SELECT * FROM dy_class where class_id = #{class_id} and user_id = #{user_id};

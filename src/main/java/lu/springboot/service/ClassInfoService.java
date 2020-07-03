@@ -26,10 +26,14 @@ public class ClassInfoService {
 
     }
 
+    /**
+     * 加入班课时，查看是否有此班课存在
+     * @param class_id
+     * @return
+     */
     public dy_class_info findClassById(int class_id){
         dy_class_info dyClassInfo = classInfoMapper.finClassById(class_id);
         return dyClassInfo;
     }
-
 
 }

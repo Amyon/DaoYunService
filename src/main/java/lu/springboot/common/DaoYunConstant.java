@@ -27,4 +27,8 @@ public class DaoYunConstant {
 
     public static final String JOIN_FAIL ="加入班课失败.";
 
+    public static final String MYALLCLASS_SUCCESS ="查询班课成功.";
+
+    public static final String MYALLCLASS_FAIL ="查询班课失败.";
+
 }
