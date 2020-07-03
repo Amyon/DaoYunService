@@ -26,6 +26,8 @@ public enum ErrorCode {
 
     OLDPWD_ERROR(20, "旧密码错误"),
 
+    NO_THIS_CLASS(20, "未加入班课"),
+
     User_id_Exist(1,"User_id 已注册");
 
 

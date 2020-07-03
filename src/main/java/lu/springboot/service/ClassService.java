@@ -53,4 +53,15 @@ public class ClassService {
 
         return myClassInfoList;
     }
+    public List<dy_class> findAllUser_InClass(String user_id, int class_id){
+        dy_class dyClass = classMapper.findClassById(class_id, user_id);
+        if(dyClass == null){
+            throw new DaoYunException("this class no exist",ErrorCode.NO_THIS_CLASS);
+        }
+        List<dy_class> allUserOfClass = classMapper.findAllUserOfClass(class_id);
+
+        return allUserOfClass;
+    }
+
+
 }

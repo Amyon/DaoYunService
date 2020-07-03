@@ -14,4 +14,7 @@ public interface ClassMapper {
 
     //查找该用户所有的课程
     List<dy_class> findMyAllClass(String user_id);
+
+    //查找该课程所有的用户
+    List<dy_class> findAllUserOfClass(int class_id);
 }

@@ -31,4 +31,8 @@ public class DaoYunConstant {
 
     public static final String MYALLCLASS_FAIL ="查询班课失败.";
 
+    public static final String AllUSER_OF_CLASS_SUCCESS ="成功查看该班课的所有人.";
+
+    public static final String AllUSER_OF_CLASS_FAIL ="失败查看该班课的所有人..";
+
 }

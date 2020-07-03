@@ -224,12 +224,21 @@ public class DaoYunController {
         }
     }
 
+    /**
+     * 查看已加入的班课
+     * @param req
+     * @param resp
+     * @return
+     * @throws DaoYunException
+     * @throws SQLException
+     */
+
     @UserLoginToken
     @GetMapping("/myclass")
     public ResponseResult myClass(HttpServletRequest req,
                                     HttpServletResponse resp) throws DaoYunException, SQLException {
         JSONObject jsonObject = new JSONObject();
-        JSONArray classDetail = new JSONArray();
+        JSONArray jsonArray = new JSONArray();
         // 取出token中带的user_tele 进行操作
         String user_tele = TokenUtil.getTokenTele();
         //取出用户信息
@@ -244,7 +253,6 @@ public class DaoYunController {
             dy_user user1 = userMapper.findUserByuser_id(i.getUser_id());
             String teacherName = user1.getUser_name();
 
-
             JSONObject jsonObject1 = new JSONObject();
             //封装返回值
             jsonObject1.put("class_id", i.getClass_id());
@@ -253,10 +261,43 @@ public class DaoYunController {
             jsonObject1.put("section",i.getSection());
             jsonObject1.put("school_info", i.getSchool_info());
             jsonObject1.put("teacher_name",teacherName);
-            classDetail.add(jsonObject1);
+            jsonArray.add(jsonObject1);
         }
-        jsonObject.put("dy_class_info",classDetail);
+        jsonObject.put("dy_class_info",jsonArray);
         return ResponseResult.newSuccessResult(jsonObject,DaoYunConstant.MYALLCLASS_SUCCESS);
+    }
+
+
+    @UserLoginToken
+    @GetMapping("/myclassdetail")
+    public ResponseResult myClassDetail(HttpServletRequest req,
+                                    HttpServletResponse resp,
+                                    @RequestParam(value="class_id",required = true)int class_id) throws DaoYunException, SQLException {
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        // 取出token中带的user_tele 进行操作
+        String user_tele = TokenUtil.getTokenTele();
+        //取出用户信息
+        dy_user user =userMapper.findUserByTele(user_tele);
+        //得到所有选这门课的user_id
+        List<dy_class> allUserOfClass= classService.findAllUser_InClass(user.getUser_id(), class_id);
+
+        for (dy_class i : allUserOfClass) {
+            //获取所有选这门课的学生信息
+            dy_user dyUser = userMapper.findUserByuser_id(i.getUser_id());
+            String userName = dyUser.getUser_name();
+            JSONObject jsonObject1 = new JSONObject();
+            //数据封装
+            jsonObject1.put("user_id", i.getUser_id());
+            jsonObject1.put("user_name", userName);
+            jsonObject1.put("score", i.getScore());
+
+            jsonArray.add(jsonObject1);
+
+        }
+
+        jsonObject.put("user", jsonArray);
+        return ResponseResult.newSuccessResult(jsonObject,DaoYunConstant.AllUSER_OF_CLASS_SUCCESS);
     }
 
 
