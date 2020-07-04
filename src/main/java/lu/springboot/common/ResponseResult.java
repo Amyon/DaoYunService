@@ -37,5 +37,11 @@ public class ResponseResult<T> {
         responseResult.setData(data);
         return responseResult;
     }
+    public static ResponseResult newSuccessResultWithout(String msg) {
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setCode(0);
+        responseResult.setMsg(msg);
+        return responseResult;
+    }
 
 }

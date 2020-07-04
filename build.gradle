@@ -2,6 +2,7 @@ buildscript {
 
 	ext {
 		springBootVersion = '2.1.6.RELEASE'
+//		springBootVersion = '4.1.2.RELEASE'
 	}
 
 	repositories {
@@ -51,6 +52,9 @@ dependencies {
 	compile group: 'com.alibaba', name: 'fastjson', version: '1.2.62'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile('com.auth0:java-jwt:3.4.0')
+	compile group: 'com.aliyun', name: 'aliyun-java-sdk-core', version: '4.5.1'
+	compile group: 'com.google.guava', name: 'guava', version: '26.0-jre'
+
 }
 
 bootJar {

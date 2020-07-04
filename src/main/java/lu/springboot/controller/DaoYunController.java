@@ -13,6 +13,7 @@ import lu.springboot.exception.DaoYunException;
 import lu.springboot.exception.ErrorCode;
 import lu.springboot.mapper.UserMapper;
 import lu.springboot.service.*;
+import lu.springboot.utils.CacheUtil;
 import lu.springboot.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ import java.util.List;
  */
 @RestController
 @Slf4j
-public class DaoYunController {
+public class DaoYunController{
 
     @Autowired
     private UserService userService;
@@ -86,17 +87,32 @@ public class DaoYunController {
                                  @RequestParam(value = "Tele", required = true)String Tele,
                                  @RequestParam(value = "PassWord", required = true)String PassWord,
                                  @RequestParam(value = "school_id", required = true)String school_id,
-                                 @RequestParam(value = "school_parent_id", required = true)String school_parent_id) throws DaoYunException{
+                                 @RequestParam(value = "school_parent_id", required = true)String school_parent_id,
+                                 @RequestParam(value = "code", required = true)String code) throws DaoYunException{
 
-        JSONObject jsonObject = new JSONObject();
+//        验证短信验证码
+        Object object = CacheUtil.cache.getIfPresent(Tele);
+        //判断是否发生验证码了
+        if(object == null){
+            return ResponseResult.newFailedResult(1,DaoYunConstant.CODE_isEXIST);
+        }else {
+            String cacheCode = (String) object;
+            //判断验证码是否正确
+            if(!cacheCode.equals(code)){
+                return ResponseResult.newFailedResult(1,DaoYunConstant.CODE_ERROR);
+            }else {
+                JSONObject jsonObject = new JSONObject();
 
 //        注册信息封装到实体
-        dy_user user = new dy_user(UserID, UserName, Sex, Tele, PassWord, school_id, school_parent_id);
-        //注册操作
-        if(userService.signUp1(user)){
-            return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.SIGNUP_SUCCESS);
+                dy_user user = new dy_user(UserID, UserName, Sex, Tele, PassWord, school_id, school_parent_id);
+                //注册操作
+                if(userService.signUp1(user)){
+                    return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.SIGNUP_SUCCESS);
+                }
+                return ResponseResult.newFailedResult(1,DaoYunConstant.SIGNUP_FAIL);
+            }
         }
-        return ResponseResult.newFailedResult(1,DaoYunConstant.SIGNUP_FAIL);
+
 
     }
 

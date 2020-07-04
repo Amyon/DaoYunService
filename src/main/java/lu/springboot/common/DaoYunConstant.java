@@ -10,6 +10,10 @@ public class DaoYunConstant {
 
     public static final String LOGIN_FAIL ="密码错误.";
 
+    public static final String CODE_ERROR ="验证码错误,请重新获取";
+
+    public static final String CODE_isEXIST ="请获取验证码";
+
     public static final String SIGNUP_SUCCESS ="SignUp Success..";
 
     public static final String SIGNUP_FAIL ="注册失败.";
