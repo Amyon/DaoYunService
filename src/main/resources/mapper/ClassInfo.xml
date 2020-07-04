@@ -16,6 +16,11 @@
             #{item.class_id}
         </foreach>
     </select>
+    <!--    查询老师创建的所有班课-->
+    <select id = "teacherFindClass" parameterType="lu.springboot.entity.dy_class_info"
+            resultType="lu.springboot.entity.dy_class_info">
+        SELECT * FROM dy_class_info where user_id = #{user_id};
+    </select>
 <!--    查询是否存在class_id的班课-->
     <select id = "finClassById" parameterType="lu.springboot.entity.dy_class_info"
             resultType="lu.springboot.entity.dy_class_info">

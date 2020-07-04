@@ -53,6 +53,14 @@ public class ClassService {
 
         return myClassInfoList;
     }
+
+
+    /**
+     * 查看这个班级里的所有人
+     * @param user_id
+     * @param class_id
+     * @return
+     */
     public List<dy_class> findAllUser_InClass(String user_id, int class_id){
         dy_class dyClass = classMapper.findClassById(class_id, user_id);
         if(dyClass == null){

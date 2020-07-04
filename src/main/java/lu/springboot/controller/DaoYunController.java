@@ -260,26 +260,32 @@ public class DaoYunController{
         //取出用户信息
         dy_user user = userMapper.findUserByTele(user_tele);
 
-        //查询加入的所有班课信息
-        List<dy_class_info> dyClassInfo = classService.findMyAllClass(user.getUser_id());
+        //学生用户，查班课
+        if(user.getRole_id().equals("2")){
+            //查询加入的所有班课信息
+            List<dy_class_info> dyClassInfo = classService.findMyAllClass(user.getUser_id());
+            //查询每个班课的老师
+            for (dy_class_info i: dyClassInfo) {
+                //得到该课程的创建者
+                dy_user user1 = userMapper.findUserByuser_id(i.getUser_id());
+                String teacherName = user1.getUser_name();
+                JSONObject jsonObject1 = new JSONObject();
+                //封装返回值
+                jsonObject1.put("class_id", i.getClass_id());
+                jsonObject1.put("class_name",i.getClass_name());
+                jsonObject1.put("course_name", i.getCourse_name());
+                jsonObject1.put("section",i.getSection());
+                jsonObject1.put("school_info", i.getSchool_info());
+                jsonObject1.put("teacher_name",teacherName);
+                jsonArray.add(jsonObject1);
+            }
+            jsonObject.put("dy_class_info",jsonArray);
 
-        //查询每个班课的老师
-        for (dy_class_info i: dyClassInfo) {
-            //得到该课程的创建者
-            dy_user user1 = userMapper.findUserByuser_id(i.getUser_id());
-            String teacherName = user1.getUser_name();
-
-            JSONObject jsonObject1 = new JSONObject();
-            //封装返回值
-            jsonObject1.put("class_id", i.getClass_id());
-            jsonObject1.put("class_name",i.getClass_name());
-            jsonObject1.put("course_name", i.getCourse_name());
-            jsonObject1.put("section",i.getSection());
-            jsonObject1.put("school_info", i.getSchool_info());
-            jsonObject1.put("teacher_name",teacherName);
-            jsonArray.add(jsonObject1);
+        }else if(user.getRole_id().equals("1")){
+            //教师查看创建的所有的班课
+            List<dy_class_info> dy_class_infos = schoolInformationService.teacherFindClass(user.getUser_id());
+            jsonObject.put("dy_class_info",dy_class_infos);
         }
-        jsonObject.put("dy_class_info",jsonArray);
         return ResponseResult.newSuccessResult(jsonObject,DaoYunConstant.MYALLCLASS_SUCCESS);
     }
 

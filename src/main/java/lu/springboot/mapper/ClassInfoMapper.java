@@ -17,4 +17,6 @@ public interface ClassInfoMapper {
     dy_class_info finClassById(int class_id);
 
     List<dy_class_info> findMyAllClassInfo(List<dy_class> myClassList);
+
+    List<dy_class_info> teacherFindClass(String user_id);
 }

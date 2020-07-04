@@ -28,6 +28,8 @@ public enum ErrorCode {
 
     NO_THIS_CLASS(20, "未加入班课"),
 
+    TEACHER_NO_CLASS(20, "你未创建班课"),
+
     User_id_Exist(1,"User_id 已注册");
 
 
