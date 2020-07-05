@@ -405,6 +405,8 @@ public class DaoYunController{
         }
 
         jsonObject.put("present_id", p.getId());
+        jsonObject.put("longitude",p.getLongitude());
+        jsonObject.put("latitude",p.getLatitude());
         return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.GETPRESCENT_SUCCESS);
     }
 

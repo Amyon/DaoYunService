@@ -26,4 +26,10 @@ public class present {
         return this.class_id;
     }
 
+    public String getLongitude(){
+        return this.longitude;
+    }
+    public String getLatitude(){
+        return this.latitude;
+    }
 }
