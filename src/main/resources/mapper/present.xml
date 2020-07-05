@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "lu.springboot.mapper.presentMapper">
+
+<!--    <select id = "findSchoolInfoById" parameterType="lu.springboot.entity.dy_school_info"-->
+<!--            resultType="lu.springboot.entity.dy_school_info">-->
+<!--        SELECT * FROM dy_school_info where school_parent_id = #{school_parent_id};-->
+<!--    </select>-->
+
+    <select id = "findClassIdBy_PrescentId" parameterType="lu.springboot.entity.present"
+            resultType="lu.springboot.entity.present">
+        SELECT * FROM dy_present where id = #{id};
+    </select>
+
+    <select id = "findPresentByClass_id" parameterType="lu.springboot.entity.present"
+            resultType="lu.springboot.entity.present">
+        SELECT * FROM dy_present where class_id = #{class_id} and state = #{state};
+    </select>
+
+    <insert id="insert" parameterType="lu.springboot.entity.present">
+        INSERT INTO dy_present(class_id, longitude,latitude,state) VALUES (#{class_id}, #{longitude}, #{latitude},#{state})
+        <selectKey keyProperty="id" order="AFTER" resultType="int">
+            select LAST_INSERT_id()
+        </selectKey>
+    </insert>
+
+        <update id="updateByID" parameterType="lu.springboot.entity.present">
+            UPDATE dy_present SET state = #{state} WHERE id = #{id};
+        </update>
+
+    <!--    <delete id="deleteFanyiByID" parameterType="java.lang.Integer">-->
+    <!--        DELETE FROM fanyi WHERE id = #{id}-->
+    <!--    </delete>-->
+</mapper>

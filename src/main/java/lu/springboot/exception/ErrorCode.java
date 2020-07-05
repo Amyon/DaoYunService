@@ -29,6 +29,9 @@ public enum ErrorCode {
     NO_THIS_CLASS(20, "未加入班课"),
 
     TEACHER_NO_CLASS(20, "你未创建班课"),
+    CREATEPRESENT_FAIL(20, "发起签到失败"),
+
+    HAS_CHECKIN(2, "已经签到，请勿重复"),
 
     User_id_Exist(1,"User_id 已注册");
 

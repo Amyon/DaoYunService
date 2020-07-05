@@ -39,4 +39,21 @@ public class DaoYunConstant {
 
     public static final String AllUSER_OF_CLASS_FAIL ="失败查看该班课的所有人..";
 
+    public static final String CREATEPRESENT_SUCCESS ="发起签到成功.";
+
+    public static final String FINISHPRESENT_SUCCESS ="结束签到成功.";
+
+    public static final String FINISHPRESENT_FAIL ="结束签到失败.";
+
+    public static final String GETPRESCENT_FAIL ="当前无课程签到.";
+
+    public static final String GETPRESCENT_SUCCESS ="成功获取课程签到号.";
+
+    public static final String CHECKIN_SUCCESS ="签到成功.";
+
+    public static final String CHECKIN_FAIL ="签到失败";
+
+    public static final String HAS_CHECKIN ="已经签到，请勿重复";
+
+
 }

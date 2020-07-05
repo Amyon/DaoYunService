@@ -71,5 +71,9 @@ public class ClassService {
         return allUserOfClass;
     }
 
+    public boolean addScore(String user_id, int class_id){
+        return classMapper.updateScore(user_id, class_id);
+    }
+
 
 }

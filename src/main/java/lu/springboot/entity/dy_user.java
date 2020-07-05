@@ -39,6 +39,10 @@ public class dy_user {
         this.school_id = school_id;
         this.school_parent_id = school_parent_id;
     }
+
+    public String getUser_id(){
+        return this.user_id;
+    }
 }
 
 

@@ -6,9 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import lu.springboot.annotation.UserLoginToken;
 import lu.springboot.common.DaoYunConstant;
 import lu.springboot.common.ResponseResult;
-import lu.springboot.entity.dy_class;
-import lu.springboot.entity.dy_class_info;
-import lu.springboot.entity.dy_user;
+import lu.springboot.entity.*;
 import lu.springboot.exception.DaoYunException;
 import lu.springboot.exception.ErrorCode;
 import lu.springboot.mapper.UserMapper;
@@ -44,7 +42,10 @@ public class DaoYunController{
     private UserMapper userMapper;
     @Autowired
     private ClassService classService;
-
+    @Autowired
+    private presentService presentService;
+    @Autowired
+    private CheckInService checkInService;
 
     @RequestMapping("/login")
     public ResponseResult login(HttpServletRequest req,
@@ -322,5 +323,117 @@ public class DaoYunController{
         return ResponseResult.newSuccessResult(jsonObject,DaoYunConstant.AllUSER_OF_CLASS_SUCCESS);
     }
 
+    /**
+     * 发起签到
+     * @param req
+     * @param resp
+     * @param class_id
+     * @param longitude
+     * @param latitude
+     * @return
+     * @throws DaoYunException
+     * @throws SQLException
+     */
+    @UserLoginToken
+    @GetMapping("/createpresent")
+    public ResponseResult createPresent(HttpServletRequest req,
+                                        HttpServletResponse resp,
+                                        @RequestParam(value="class_id",required = true)int class_id,
+                                        @RequestParam(value = "longitude", required = true)String longitude,
+                                        @RequestParam(value = "latitude", required = true)String latitude) throws DaoYunException, SQLException {
+        JSONObject jsonObject = new JSONObject();
+        // 取出token中带的user_tele 进行操作
+        String user_tele = TokenUtil.getTokenTele();
+
+        present p = new present(class_id, longitude,latitude,0 );
+
+        int present_id = presentService.createPresent(p);
+
+        jsonObject.put("present_id", present_id);
+        return ResponseResult.newSuccessResult(jsonObject,DaoYunConstant.CREATEPRESENT_SUCCESS);
+    }
+
+    /**
+     * 老师结束签到
+     * @param req
+     * @param resp
+     * @param present_id
+     * @return
+     * @throws DaoYunException
+     * @throws SQLException
+     */
+    @UserLoginToken
+    @GetMapping("/finishpresent")
+    public ResponseResult finshPresent(HttpServletRequest req,
+                                        HttpServletResponse resp,
+                                        @RequestParam(value="present_id",required = true)int present_id) throws DaoYunException, SQLException {
+        JSONObject jsonObject = new JSONObject();
+        // 取出token中带的user_tele 进行操作
+        String user_tele = TokenUtil.getTokenTele();
+
+        if(!presentService.finishPressent(present_id)){
+            return ResponseResult.newFailedResult(1,DaoYunConstant.FINISHPRESENT_FAIL);
+        }
+
+//        jsonObject.put("present_id", present_id);
+        return ResponseResult.newSuccessResultWithout(DaoYunConstant.FINISHPRESENT_SUCCESS);
+    }
+
+
+    /**
+     *
+     * 学生查询签到课程
+      * @param req
+     * @param resp
+     * @param class_id
+     * @return
+     * @throws DaoYunException
+     * @throws SQLException
+     */
+    @UserLoginToken
+    @GetMapping("/getpresent")
+    public ResponseResult getPresent(HttpServletRequest req,
+                                       HttpServletResponse resp,
+                                       @RequestParam(value="class_id",required = true)int class_id) throws DaoYunException, SQLException {
+        JSONObject jsonObject = new JSONObject();
+        // 取出token中带的user_tele 进行操作
+        String user_tele = TokenUtil.getTokenTele();
+
+        present p = presentService.getPresent(class_id);
+        if(p == null){
+            return ResponseResult.newFailedResult(1,DaoYunConstant.GETPRESCENT_FAIL);
+        }
+
+        jsonObject.put("present_id", p.getId());
+        return ResponseResult.newSuccessResult(jsonObject, DaoYunConstant.GETPRESCENT_SUCCESS);
+    }
+
+    @UserLoginToken
+    @GetMapping("/createcheckin")
+    public ResponseResult createCheckIn(HttpServletRequest req,
+                                     HttpServletResponse resp,
+                                     @RequestParam(value="present_id",required = true)int present_id ) throws DaoYunException, SQLException {
+        JSONObject jsonObject = new JSONObject();
+        // 取出token中带的user_tele 进行操作
+        String user_tele = TokenUtil.getTokenTele();
+        //取出用户信息
+        dy_user user =userMapper.findUserByTele(user_tele);
+        String user_id = user.getUser_id();
+        checkin c = new checkin(user_id, present_id);
+        //签到插入数据
+        boolean isCheckIn = checkInService.createCheckIn(c);
+        if(isCheckIn){
+            //取出签到号的课程id
+            present p = presentService.getClass_id(present_id);
+            if(p != null){
+                //加经验成功，
+                if(classService.addScore(user_id,p.getClass_id())){
+                    return ResponseResult.newSuccessResultWithout(DaoYunConstant.CHECKIN_SUCCESS);
+                }
+            }
+        }
+        return ResponseResult.newFailedResult(1,DaoYunConstant.CHECKIN_FAIL);
+
+    }
 
 }

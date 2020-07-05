@@ -17,4 +17,6 @@ public interface ClassMapper {
 
     //查找该课程所有的用户
     List<dy_class> findAllUserOfClass(int class_id);
+
+    boolean updateScore(String user_id, int class_id);
 }
